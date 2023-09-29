@@ -14,10 +14,11 @@ Article.find().then((result)=>res.json(result)).catch((error)=>{
 })
 
 router.post('/article',(req,res)=>{
-  
-    
 
-
+    const {id,title,content}=req.body;
+     
+    const article2=new Article({id,title,content})
+article2.save().then(()=>console.log('saved')).catch((error)=>console.log(error))
 })
 
 
@@ -37,8 +38,20 @@ router.get('/article/:numberToFind', (req, res) => {
 })
 
 
-router.get('/article/search?q=:query',(req,res)=>{
+router.get('/article/',(req,res)=>{
 
+    const findArt=req.query.findArt;
+    
+    Article.findOne({title:req.query.findArt}).then((result)=>
+    {
+        if(result){
+            res.json(result)
+        }
+        else{
+            res.json({"false":"nothing"})
+        }
+    }
+    ).catch((error)=>console.log("Cant find something"));
 })
 
 
